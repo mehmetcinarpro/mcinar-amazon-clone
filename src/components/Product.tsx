@@ -1,5 +1,7 @@
 import React from 'react';
 import './Product.css';
+import { useStateValue } from '../contexts/StateProvider';
+import { ActionType } from '../contexts/reducer';
 
 interface ProductProps {
     id: number;
@@ -11,6 +13,17 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({
     id, title, image, price, rating
 }) => {
+    const { state, dispatch } = useStateValue();
+
+    const addToBasket = () => {
+        dispatch({
+            type: ActionType.ADD_TO_BASKET,
+            item: {
+                id, title, image, price, rating
+            }
+        })
+    }
+
     return (
         <div className="product">
             <div className="product__info">
@@ -30,7 +43,7 @@ const Product: React.FC<ProductProps> = ({
                 </div>
             </div>
             <img src={image} alt="" />
-            <button>Add to basket</button>
+            <button onClick={addToBasket}>Add to basket</button>
         </div>
     );
 };
